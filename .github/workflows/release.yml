@@ -46,6 +46,3 @@ jobs:
           git add DESCRIPTION
           git commit -m "Update version in DESCRIPTION to ${{ needs.create-release.outputs.new_version }} [norelease]"
           git push
-  
-          branch: gh-pages
-          folder: docs
