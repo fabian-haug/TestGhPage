@@ -1,0 +1,11 @@
+---
+title: "My Awesome R Package"
+output: rmarkdown::html_document
+---
+
+```{r version-number, echo=FALSE}
+packageVersion <- packageDescription("TestGhPage")$Version
+cat(sprintf("Current version of My Awesome R Package is %s.", packageVersion))
+
+```r
+pkgdown::build_site()
