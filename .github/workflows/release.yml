@@ -8,6 +8,8 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       new_version: ${{ steps.create_release.outputs.version }}
     steps:
@@ -17,13 +19,13 @@ jobs:
         id: create_release
         uses: rymndhng/release-on-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           bump_version_scheme: minor
-        # This action now outputs the version number, which can be used in subsequent steps or jobs
 
   update-description:
     needs: create-release
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
