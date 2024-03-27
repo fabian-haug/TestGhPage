@@ -36,7 +36,7 @@ jobs:
       - name: Update DESCRIPTION file with the new version
         run: |
           new_version="${{ needs.create-release.outputs.new_version }}"
-          Rscript -e "desc <- read.dcf('DESCRIPTION', all = TRUE); desc[1, 'Version'] <- '${new_version}'; write.dcf(desc, 'DESCRIPTION', useBytes = TRUE)"
+          Rscript -e "lines <- readLines('DESCRIPTION'); for (i in 1:length(lines)) { if (grepl('^Version:', lines[i])) { lines[i] <- paste('Version:', '${new_version}'); break } }; writeLines(lines, 'DESCRIPTION')"
           # This R script reads the current DESCRIPTION file, updates the Version field, and writes the changes back
 
       - name: Commit and Push changes
