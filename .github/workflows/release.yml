@@ -8,18 +8,17 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.MY_PAT}}
     outputs:
       new_version: ${{ steps.create_release.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-        with:
-            token: ${{ secrets.MY_PAT }} 
 
       - name: Create Release
         id: create_release
         uses: rymndhng/release-on-push-action@master
         with:
-          token: ${{ secrets.MY_PAT }} 
           bump_version_scheme: minor
 
   update-description:
