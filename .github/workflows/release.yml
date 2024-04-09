@@ -25,10 +25,11 @@ jobs:
     needs: create-release
     if: ${{ needs.create-release.outputs.new_version != '' }}
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # This is important to allow pushing to the protected branch
+          token: ${{ secrets.MY_PAT }} # Use the PAT stored as a secret
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -46,3 +47,6 @@ jobs:
           git add DESCRIPTION
           git commit -m "Update version in DESCRIPTION to ${{ needs.create-release.outputs.new_version }} [norelease]"
           git push
+        env:
+          # Use the PAT for pushing
+          GIT_ASKPASS: echo ${{ secrets.MY_PAT }}
