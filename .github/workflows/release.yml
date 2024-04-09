@@ -6,7 +6,22 @@ on:
       - main
 
 jobs:
+  check-commit:
+    runs-on: ubuntu-latest
+    outputs:
+      message: ${{ steps.get-commit-message.outputs.message }} # Define job-level output
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      
+      - name: Get the commit message
+        id: get-commit-message
+        run: echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+
+
   create-release:
+    needs: check-commit
+    if: ${{ !contains(needs.check-commit.outputs.message, 'norelease') }}
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.MY_PAT}}
