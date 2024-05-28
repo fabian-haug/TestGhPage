@@ -23,6 +23,7 @@ jobs:
             COMMIT_SHA="${{ github.event.pull_request.head.sha }}"
           fi
           message=$(git log --format=%B -n 1 $COMMIT_SHA)
+          echo "$message"
           echo "message<<EOF" >> $GITHUB_OUTPUT
           echo "$message" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
