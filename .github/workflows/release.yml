@@ -22,6 +22,9 @@ jobs:
           elif [[ "${{ github.eventname }}" == "pull_request" ]]; then
             echo "message=$(git log --format=%B -n 1 ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT
           fi
+          
+      - name: Debug output
+        run: echo "::set-output name=debug_message::$message"
 
   create-release:
     needs: check-commit
